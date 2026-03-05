@@ -187,7 +187,7 @@ footer { text-align:center; padding:36px 0 28px; font-family:'Space Mono',monosp
       <h1>AI Video Prompt Generator</h1>
       <p>NANO BANANA · KLING AI · RUNWAY · LUMA · MIDJOURNEY</p>
     </div>
-    <span class="badge">v3 · CLAUDE POWERED</span>
+    <span class="badge">v3 · GEMINI POWERED</span>
   </header>
 
   <!-- API Keys managed server-side -->
@@ -265,7 +265,7 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
         <div class="photo-upload-zone" id="uploadZone">
           <input type="file" id="photoInput" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
           <div class="upload-icon">🖼️</div>
-          <div class="upload-hint"><strong>Click hoặc kéo thả ảnh</strong><br>Claude nhận diện khuôn mặt → gán vào mọi prompt</div>
+          <div class="upload-hint"><strong>Click hoặc kéo thả ảnh</strong><br>Gemini nhận diện khuôn mặt → gán vào mọi prompt</div>
         </div>
         <div class="photo-previews" id="photoPreviews"></div>
         <div id="aiTagWrap" style="display:none"><div class="ai-tag">✦ Nhân vật đã được nhận diện</div></div>
@@ -314,7 +314,7 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
     </div>
   </div>
 
-  <footer>AI Video Prompt Generator v3 · Powered by Claude AI · Built for Vietnamese Creators</footer>
+  <footer>AI Video Prompt Generator v3 · Powered by Gemini AI · Built for Vietnamese Creators</footer>
 </div>
 
 <script>
@@ -322,7 +322,7 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
 //  STATE
 // ─────────────────────────────────────────────
 let uploadedPhotos = [];    // [{base64, mediaType}]
-let lastData = null;        // full parsed JSON from Claude
+let lastData = null;        // full parsed JSON from Gemini
 let selections = {};        // { sceneIdx: { imgOpt: 0, vidOpt: 0 } }
 
 // ─────────────────────────────────────────────
@@ -408,17 +408,18 @@ async function generatePrompts() {
     setStatus('🔍 Phân tích nhân vật từ ảnh...');
     animProg(20, 40, 1200);
     try {
-      const imgBlocks = uploadedPhotos.map(p => ({ type:'image', source:{ type:'base64', media_type:p.mediaType, data:p.base64 } }));
-      const r = await fetch('/api/claude', {
+      const imgParts = uploadedPhotos.map(p => ({ inlineData:{ mimeType:p.mediaType, data:p.base64 } }));
+      const r = await fetch('/api/gemini', {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:500,
-          messages:[{ role:'user', content:[...imgBlocks,{ type:'text',
-            text:`Analyze the person in these photos. Write ONE precise English paragraph (70-100 words) for AI image generation. Include: gender, approximate age, ethnicity, face shape, distinctive facial features, skin tone, hair color/style. Start with gender and age. Be specific so AI can lock onto this appearance. Do NOT mention clothing or background.${charExtra?' Extra context: '+charExtra:''}` }] }] })
+        body: JSON.stringify({ model:'gemini-3.0-pro', payload:{
+          contents:[{ parts:[...imgParts,{ text:`Analyze the person in these photos. Write ONE precise English paragraph (70-100 words) for AI image generation. Include: gender, approximate age, ethnicity, face shape, distinctive facial features, skin tone, hair color/style. Start with gender and age. Be specific so AI can lock onto this appearance. Do NOT mention clothing or background.${charExtra?' Extra context: '+charExtra:''}` }] }],
+          generationConfig:{ maxOutputTokens:500 }
+        }})
       });
       if (r.ok) {
         const d = await r.json();
-        const t = d.content.map(b=>b.text||'').join('').trim();
-        if (t.length > 20) charDesc = t;
+        const t = d.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('').trim();
+        if (t && t.length > 20) charDesc = t;
       }
     } catch(e) { console.warn('Photo analysis failed:', e); }
   }
@@ -474,23 +475,27 @@ Video prompt example: "Slow dolly-in toward subject, {{CHARACTER}} turns slightl
 Each of 3 image options must differ in: shot size (wide/medium/close), camera angle. Each of 3 video options must differ in: camera movement style. Same colorGrade and lightingStyle across all.
 Tone: ${toneMap[tone]} | Aspect ratio: ${ratio} | Style: ${style}`;
 
-  const userContent = [];
-  if (hasPhotos) uploadedPhotos.forEach(p => userContent.push({ type:'image', source:{ type:'base64', media_type:p.mediaType, data:p.base64 } }));
-  userContent.push({ type:'text', text:`Analyze and create 3 options per scene for this script:\n\n${script}\n\nSplit into 4-8 scenes. Each sentence/idea = 1 scene.\nWrite prompts in ${lang==='vi'?'Vietnamese':'English'}.` });
+  const userParts = [];
+  if (hasPhotos) uploadedPhotos.forEach(p => userParts.push({ inlineData:{ mimeType:p.mediaType, data:p.base64 } }));
+  userParts.push({ text:`Analyze and create 3 options per scene for this script:\n\n${script}\n\nSplit into 4-8 scenes. Each sentence/idea = 1 scene.\nWrite prompts in ${lang==='vi'?'Vietnamese':'English'}.` });
 
   try {
-    const r = await fetch('/api/claude', {
+    const r = await fetch('/api/gemini', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:8000, system:sys, messages:[{ role:'user', content:userContent }] })
+      body: JSON.stringify({ model:'gemini-3.0-pro', payload:{
+        systemInstruction:{ parts:[{ text:sys }] },
+        contents:[{ parts:userParts }],
+        generationConfig:{ maxOutputTokens:8000 }
+      }})
     });
     animProg(75, 95, 800);
     if (!r.ok) { const e=await r.json().catch(()=>({})); throw new Error(e.error?.message || e.error || `API error (HTTP ${r.status})`); }
     const data = await r.json();
-    const raw = data.content.map(b=>b.text||'').join('');
+    const raw = data.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('') || '';
 
-    // Check stop reason — if max_tokens hit, response is truncated
-    const stopReason = data.stop_reason;
-    if (stopReason === 'max_tokens') {
+    // Check finish reason — if MAX_TOKENS hit, response is truncated
+    const finishReason = data.candidates?.[0]?.finishReason;
+    if (finishReason === 'MAX_TOKENS') {
       throw new Error('Response bị cắt do quá dài. Thử rút ngắn kịch bản hoặc giảm số cảnh.');
     }
 
@@ -498,7 +503,7 @@ Tone: ${toneMap[tone]} | Aspect ratio: ${ratio} | Style: ${style}`;
     try {
       // Strip all markdown code fences (global, multiline)
       let cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-      // Extract first valid { ... } block if Claude added preamble text
+      // Extract first valid { ... } block if Gemini added preamble text
       if (!cleaned.startsWith('{')) {
         const match = cleaned.match(/\{[\s\S]*\}/);
         if (match) cleaned = match[0];
@@ -537,7 +542,7 @@ function renderResults(data) {
   const ccw = document.getElementById('charCardWrap');
   ccw.innerHTML = '';
   if (data._hasPhotos && data._charDesc) {
-    ccw.innerHTML = `<div class="char-card"><div class="char-card-label">✦ Nhân vật (Claude phân tích từ ảnh)</div><div class="char-card-text">${esc(data._charDesc)}</div></div>`;
+    ccw.innerHTML = `<div class="char-card"><div class="char-card-label">✦ Nhân vật (Gemini phân tích từ ảnh)</div><div class="char-card-text">${esc(data._charDesc)}</div></div>`;
   }
   if (data.colorGrade || data.lightingStyle) {
     ccw.innerHTML += `<div class="char-card" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.18);">
@@ -678,9 +683,9 @@ function toggleScene(si) {
 }
 
 // ─────────────────────────────────────────────
-//  GEN IMAGE — Nano Banana via Claude proxy (bypasses CORS)
+//  GEN IMAGE — Nano Banana via Gemini proxy (bypasses CORS)
 //  Google Gemini API blocks direct browser fetch (no CORS headers).
-//  Solution: Claude calls Gemini server-side via tool_use and returns the image.
+//  Solution: Gemini generates the image server-side.
 // ─────────────────────────────────────────────
 async function genImage(si) {
   if (!lastData?.scenes?.[si]) return;

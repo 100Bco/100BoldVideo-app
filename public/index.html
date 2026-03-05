@@ -725,14 +725,29 @@ async function genImage(si) {
       generationConfig: { responseModalities: ['IMAGE', 'TEXT'] }
     };
 
-    // ── Call /api/gemini (Vercel serverless proxy) — no CORS issue ──
-    const r = await fetch('/api/gemini', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model, payload: geminiPayload })
-    });
-
-    const data = await r.json();
+    // ── Call /api/gemini with auto-retry on overload ──
+    const modelFallbacks = [model, 'gemini-2.0-flash-preview-image-generation'];
+    let r, data;
+    for (const tryModel of modelFallbacks) {
+      for (let attempt = 0; attempt < 3; attempt++) {
+        if (attempt > 0 || tryModel !== model) {
+          const wait = (attempt + 1) * 2000;
+          contentEl.innerHTML = `<div class="kling-polling-msg">🍌 ${tryModel !== model ? 'Trying fallback model' : 'Retrying'}... (${attempt + 1})</div>`;
+          await new Promise(ok => setTimeout(ok, wait));
+        }
+        r = await fetch('/api/gemini', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model: tryModel, payload: geminiPayload })
+        });
+        data = await r.json();
+        if (r.ok) break;
+        if (r.status !== 429 && r.status !== 503 && !(data.error || '').includes('high demand')) {
+          break; // non-retryable error
+        }
+      }
+      if (r.ok) break;
+    }
     if (!r.ok) throw new Error(data.error || `HTTP ${r.status}`);
 
     const resParts = data.candidates?.[0]?.content?.parts || [];

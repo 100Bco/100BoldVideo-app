@@ -832,7 +832,7 @@ async function genVideo(si) {
       submitUrl = 'https://api.klingai.com/v1/videos/image2video';
       submitBody = {
         model_name: model,
-        image: `data:${frameSource.mime};base64,${frameSource.b64}`,
+        image: frameSource.b64,
         prompt: finalPrompt,
         negative_prompt: 'blurry, low quality, distorted, watermark, text overlay, face change',
         cfg_scale: 0.5,

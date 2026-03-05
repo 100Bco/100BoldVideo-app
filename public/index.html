@@ -454,23 +454,23 @@ RESPONSE FORMAT:
       "dialogue": "original Vietnamese dialogue",
       "setting": "brief setting & camera angle in Vietnamese",
       "imageOptions": [
-        { "label": "Option A", "style": "Wide cinematic", "prompt": "..." },
+        { "label": "Option A", "style": "Medium balanced", "prompt": "..." },
         { "label": "Option B", "style": "Close emotional", "prompt": "..." }
       ],
       "videoOptions": [
         { "label": "Option A", "style": "Dynamic push-in", "prompt": "..." },
-        { "label": "Option B", "style": "Slow orbit", "prompt": "..." }
+        { "label": "Option B", "style": "Static + subtle parallax", "prompt": "..." }
       ]
     }
   ],
   "notes": "2-3 sentences in Vietnamese: which tool for image vs video, key tips"
 }
 
-Image prompt example: "Wide shot, {{CHARACTER}}, confident expression, standing on city rooftop at dusk, arms relaxed at sides, dark business suit, glass buildings behind with warm golden hour glow, shallow depth of field, ${style}, 8K, cinematic lighting, sharp focus"
+Image prompt example (medium): "Medium shot from waist up, {{CHARACTER}}, confident expression, standing on city rooftop at dusk, arms relaxed at sides, dark business suit, glass buildings behind with warm golden hour glow, shallow depth of field, ${style}, 8K, cinematic lighting, sharp focus"
 
-Video prompt example: "Slow dolly-in toward subject, {{CHARACTER}} turns slightly toward camera, city lights begin to flicker on in background, gentle wind moves jacket, smooth cinematic motion, 24fps"
+Video prompt example (static): "Static camera with subtle parallax, {{CHARACTER}} centered in frame, city lights softly flicker in background, gentle wind moves jacket, minimal camera movement, cinematic depth, 24fps"
 
-Each of 2 image options must differ in: shot size (wide vs close), camera angle. Each of 2 video options must differ in: camera movement style. Same colorGrade and lightingStyle across all.
+Each of 2 image options must differ in: shot size (medium vs close), camera angle. Each of 2 video options must differ in: one dynamic (push-in/tracking) vs one static with subtle parallax or minimal movement. Same colorGrade and lightingStyle across all.
 Tone: ${toneMap[tone]} | Aspect ratio: ${ratio} | Style: ${style}`;
 
   const userParts = [];

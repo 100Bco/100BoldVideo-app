@@ -9,9 +9,10 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { apiKey, model, max_tokens, system, messages } = req.body;
+  const { model, max_tokens, system, messages } = req.body;
+  const apiKey = process.env.CLAUDE_API_KEY;
 
-  if (!apiKey) return res.status(400).json({ error: 'Missing Claude API key' });
+  if (!apiKey) return res.status(500).json({ error: 'CLAUDE_API_KEY not configured on server' });
   if (!messages) return res.status(400).json({ error: 'Missing messages' });
 
   try {

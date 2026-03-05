@@ -42,7 +42,7 @@ header { padding:36px 0 28px; display:flex; align-items:center; gap:16px; border
 .api-bar { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px 20px; margin-bottom:24px; }
 .api-bar-title { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
 .api-bar-title::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--orange); box-shadow:0 0 6px var(--orange); display:block; }
-.api-keys-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+.api-keys-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 @media(max-width:700px){ .api-keys-grid { grid-template-columns:1fr; } }
 .api-key-field { display:flex; flex-direction:column; gap:5px; }
 .api-key-label { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-muted); letter-spacing:.5px; }
@@ -213,6 +213,7 @@ footer { text-align:center; padding:36px 0 28px; font-family:'Space Mono',monosp
 
     <!-- Saved summary (shown when keys are saved) -->
     <div id="apiSavedSummary" style="display:none;gap:16px;flex-wrap:wrap;margin-top:4px;">
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);">🧠 Claude: <span id="summaryClaude" style="color:#00e5a0"></span></div>
       <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);">🍌 Google: <span id="summaryGoogle" style="color:#00e5a0"></span></div>
       <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);">🎬 Kling Access: <span id="summaryKlingA" style="color:#00e5a0"></span></div>
       <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);">🔑 Kling Secret: <span id="summaryKlingS" style="color:#00e5a0"></span></div>
@@ -221,6 +222,13 @@ footer { text-align:center; padding:36px 0 28px; font-family:'Space Mono',monosp
     <!-- Edit form (hidden when saved) -->
     <div id="apiEditForm">
       <div class="api-keys-grid" style="margin-top:12px;">
+        <div class="api-key-field">
+          <div class="api-key-label">Claude API Key (Anthropic)</div>
+          <div class="api-key-input-wrap">
+            <input type="password" id="claudeKey" placeholder="sk-ant-..." oninput="updateKeyStatus('claudeKey','claudeKeyStatus')" />
+            <span class="key-status empty" id="claudeKeyStatus">○</span>
+          </div>
+        </div>
         <div class="api-key-field">
           <div class="api-key-label">Google AI Studio (Nano Banana)</div>
           <div class="api-key-input-wrap">
@@ -400,12 +408,13 @@ function maskKey(k) {
 }
 
 async function saveApiKeys() {
+  const ck = document.getElementById('claudeKey').value.trim();
   const gk = document.getElementById('googleKey').value.trim();
   const ka = document.getElementById('klingAccess').value.trim();
   const ks = document.getElementById('klingSecret').value.trim();
   try {
-    await window.storage.set('apikeys', JSON.stringify({ gk, ka, ks }));
-    showSavedState(gk, ka, ks);
+    localStorage.setItem('apikeys', JSON.stringify({ ck, gk, ka, ks }));
+    showSavedState(ck, gk, ka, ks);
   } catch(e) {
     alert('Không lưu được: ' + e.message);
   }
@@ -413,13 +422,14 @@ async function saveApiKeys() {
 
 async function loadApiKeys() {
   try {
-    const res = await window.storage.get('apikeys');
-    if (!res) return;
-    const { gk, ka, ks } = JSON.parse(res.value);
+    const raw = localStorage.getItem('apikeys');
+    if (!raw) return;
+    const { ck, gk, ka, ks } = JSON.parse(raw);
+    if (ck) { document.getElementById('claudeKey').value = ck; updateKeyStatus('claudeKey','claudeKeyStatus'); }
     if (gk) { document.getElementById('googleKey').value = gk; updateKeyStatus('googleKey','googleKeyStatus'); }
     if (ka) { document.getElementById('klingAccess').value = ka; updateKeyStatus('klingAccess','klingAccessStatus'); }
     if (ks) { document.getElementById('klingSecret').value = ks; updateKeyStatus('klingSecret','klingSecretStatus'); }
-    if (gk || ka || ks) showSavedState(gk, ka, ks);
+    if (ck || gk || ka || ks) showSavedState(ck, gk, ka, ks);
   } catch(e) {
     // No saved keys yet — show edit form
   }
@@ -428,11 +438,12 @@ async function loadApiKeys() {
 async function clearApiKeys() {
   if (!confirm('Xóa tất cả API keys đã lưu?')) return;
   try {
-    await window.storage.delete('apikeys');
+    localStorage.removeItem('apikeys');
+    document.getElementById('claudeKey').value = '';
     document.getElementById('googleKey').value = '';
     document.getElementById('klingAccess').value = '';
     document.getElementById('klingSecret').value = '';
-    ['googleKeyStatus','klingAccessStatus','klingSecretStatus'].forEach(id => {
+    ['claudeKeyStatus','googleKeyStatus','klingAccessStatus','klingSecretStatus'].forEach(id => {
       const el = document.getElementById(id);
       el.textContent = '○'; el.className = 'key-status empty';
     });
@@ -440,12 +451,13 @@ async function clearApiKeys() {
   } catch(e) {}
 }
 
-function showSavedState(gk, ka, ks) {
+function showSavedState(ck, gk, ka, ks) {
   document.getElementById('apiSavedBadge').style.display = 'inline-flex';
   document.getElementById('apiEditBtn').style.display = 'inline-block';
   document.getElementById('apiEditForm').style.display = 'none';
   const summary = document.getElementById('apiSavedSummary');
   summary.style.display = 'flex';
+  document.getElementById('summaryClaude').textContent = maskKey(ck);
   document.getElementById('summaryGoogle').textContent = maskKey(gk);
   document.getElementById('summaryKlingA').textContent = maskKey(ka);
   document.getElementById('summaryKlingS').textContent = maskKey(ks);
@@ -535,6 +547,8 @@ async function generatePrompts() {
   const style = document.getElementById('styleSelect').value;
   const charExtra = document.getElementById('charExtra').value.trim();
   const hasPhotos = uploadedPhotos.length > 0;
+  const claudeKey = getKey('claudeKey');
+  if (!claudeKey) { showError('Vui lòng nhập Claude API Key (Anthropic).'); setLoading(false); return; }
 
   const toneMap = { professional:'professional and confident', emotional:'emotional and authentic', energetic:'energetic and action-driven', luxury:'luxury and refined', storytelling:'narrative storytelling' };
 
@@ -545,9 +559,9 @@ async function generatePrompts() {
     animProg(20, 40, 1200);
     try {
       const imgBlocks = uploadedPhotos.map(p => ({ type:'image', source:{ type:'base64', media_type:p.mediaType, data:p.base64 } }));
-      const r = await fetch('https://api.anthropic.com/v1/messages', {
+      const r = await fetch('/api/claude', {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:500,
+        body: JSON.stringify({ apiKey: claudeKey, model:'claude-sonnet-4-20250514', max_tokens:500,
           messages:[{ role:'user', content:[...imgBlocks,{ type:'text',
             text:`Analyze the person in these photos. Write ONE precise English paragraph (70-100 words) for AI image generation. Include: gender, approximate age, ethnicity, face shape, distinctive facial features, skin tone, hair color/style. Start with gender and age. Be specific so AI can lock onto this appearance. Do NOT mention clothing or background.${charExtra?' Extra context: '+charExtra:''}` }] }] })
       });
@@ -615,9 +629,9 @@ Tone: ${toneMap[tone]} | Aspect ratio: ${ratio} | Style: ${style}`;
   userContent.push({ type:'text', text:`Analyze and create 3 options per scene for this script:\n\n${script}\n\nSplit into 4-8 scenes. Each sentence/idea = 1 scene.\nWrite prompts in ${lang==='vi'?'Vietnamese':'English'}.` });
 
   try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
+    const r = await fetch('/api/claude', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:8000, system:sys, messages:[{ role:'user', content:userContent }] })
+      body: JSON.stringify({ apiKey: claudeKey, model:'claude-sonnet-4-20250514', max_tokens:8000, system:sys, messages:[{ role:'user', content:userContent }] })
     });
     animProg(75, 95, 800);
     if (!r.ok) { const e=await r.json(); throw new Error(e.error?.message||'API error'); }
@@ -776,7 +790,7 @@ function renderOptionHTML(si, type, oi, opt, selected) {
       </div>
       <div class="option-text">${esc(displayPrompt)}</div>
       <div class="option-copy-row">
-        <button class="copy-btn" onclick="event.stopPropagation();copyTxt(this,${JSON.stringify(displayPrompt)})">Copy</button>
+        <button class="copy-btn" onclick="event.stopPropagation();copyOptionPrompt(this,${si},'${type}',${oi})">Copy</button>
       </div>
     </div>`;
 }
@@ -974,10 +988,10 @@ async function genVideo(si) {
       };
     }
 
-    const submitResp = await fetch(submitUrl, {
+    const submitResp = await fetch('/api/kling', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${jwt}` },
-      body: JSON.stringify(submitBody)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ jwt, endpoint: submitUrl, body: submitBody })
     });
 
     if (!submitResp.ok) {
@@ -1046,7 +1060,7 @@ async function pollKlingTask(taskId, accessKey, secretKey, onStatus, pollUrl) {
   for (let i = 0; i < maxAttempts; i++) {
     await sleep(5000);
     const jwt = await generateKlingJWT(accessKey, secretKey);
-    const r = await fetch(url, { headers: { 'Authorization': `Bearer ${jwt}` } });
+    const r = await fetch(`/api/kling?jwt=${encodeURIComponent(jwt)}&endpoint=${encodeURIComponent(url)}`);
     if (!r.ok) continue;
     const d = await r.json();
     if (d.code !== 0) throw new Error(d.message || 'Polling error');
@@ -1124,6 +1138,17 @@ async function copyRaw(text, btn) {
     await navigator.clipboard.writeText(text);
     if (btn) { const orig = btn.textContent; btn.textContent = '✓ Copied!'; setTimeout(()=>btn.textContent=orig, 2000); }
   } catch(e) {}
+}
+
+async function copyOptionPrompt(btn, si, type, oi) {
+  const scene = lastData?.scenes?.[si];
+  if (!scene) return;
+  const opts = type === 'img' ? scene.imageOptions : scene.videoOptions;
+  const opt = opts?.[oi];
+  if (!opt?.prompt) return;
+  const charDesc = lastData._charDesc || 'the person from reference photo, locked face and hairstyle';
+  const text = opt.prompt.replace(/\{\{CHARACTER\}\}/g, charDesc);
+  await copyTxt(btn, text);
 }
 
 async function copyTxt(btn, text) {

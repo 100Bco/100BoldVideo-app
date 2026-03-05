@@ -2,6 +2,12 @@
   "functions": {
     "api/gemini.js": {
       "maxDuration": 60
+    },
+    "api/claude.js": {
+      "maxDuration": 120
+    },
+    "api/kling.js": {
+      "maxDuration": 60
     }
   }
 }

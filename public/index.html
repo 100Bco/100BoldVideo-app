@@ -484,7 +484,7 @@ Tone: ${toneMap[tone]} | Aspect ratio: ${ratio} | Style: ${style}`;
       body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:8000, system:sys, messages:[{ role:'user', content:userContent }] })
     });
     animProg(75, 95, 800);
-    if (!r.ok) { const e=await r.json(); throw new Error(e.error?.message||'API error'); }
+    if (!r.ok) { const e=await r.json().catch(()=>({})); throw new Error(e.error?.message || e.error || `API error (HTTP ${r.status})`); }
     const data = await r.json();
     const raw = data.content.map(b=>b.text||'').join('');
 

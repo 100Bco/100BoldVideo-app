@@ -411,7 +411,7 @@ async function generatePrompts() {
       const imgParts = uploadedPhotos.map(p => ({ inlineData:{ mimeType:p.mediaType, data:p.base64 } }));
       const r = await fetch('/api/gemini', {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ model:'gemini-2.5-pro', payload:{
+        body: JSON.stringify({ model:'gemini-2.5-flash', payload:{
           contents:[{ parts:[...imgParts,{ text:`Analyze the person in these photos. Write ONE precise English paragraph (70-100 words) for AI image generation. Include: gender, approximate age, ethnicity, face shape, distinctive facial features, skin tone, hair color/style. Start with gender and age. Be specific so AI can lock onto this appearance. Do NOT mention clothing or background.${charExtra?' Extra context: '+charExtra:''}` }] }],
           generationConfig:{ maxOutputTokens:500 }
         }})
@@ -482,7 +482,7 @@ Tone: ${toneMap[tone]} | Aspect ratio: ${ratio} | Style: ${style}`;
   try {
     const r = await fetch('/api/gemini', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'gemini-2.5-pro', payload:{
+      body: JSON.stringify({ model:'gemini-2.5-flash', payload:{
         systemInstruction:{ parts:[{ text:sys }] },
         contents:[{ parts:userParts }],
         generationConfig:{ maxOutputTokens:8000 }

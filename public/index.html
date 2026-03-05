@@ -39,19 +39,6 @@ header { padding:36px 0 28px; display:flex; align-items:center; gap:16px; border
 .badge { margin-left:auto; background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.25); color:var(--accent); font-family:'Space Mono',monospace; font-size:10px; padding:4px 10px; border-radius:20px; letter-spacing:1px; white-space:nowrap; }
 
 /* ── API KEYS BAR ── */
-.api-bar { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px 20px; margin-bottom:24px; }
-.api-bar-title { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--text-muted); text-transform:uppercase; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
-.api-bar-title::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--orange); box-shadow:0 0 6px var(--orange); display:block; }
-.api-keys-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
-@media(max-width:700px){ .api-keys-grid { grid-template-columns:1fr; } }
-.api-key-field { display:flex; flex-direction:column; gap:5px; }
-.api-key-label { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-muted); letter-spacing:.5px; }
-.api-key-input-wrap { position:relative; }
-.api-key-input-wrap input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Space Mono',monospace; font-size:11px; padding:8px 36px 8px 12px; outline:none; transition:border-color .2s; }
-.api-key-input-wrap input:focus { border-color:var(--accent); }
-.key-status { position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:12px; }
-.key-status.ok { color:var(--green); }
-.key-status.empty { color:var(--text-muted); }
 
 /* ── CARDS ── */
 .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; }
@@ -203,52 +190,7 @@ footer { text-align:center; padding:36px 0 28px; font-family:'Space Mono',monosp
     <span class="badge">v3 · CLAUDE POWERED</span>
   </header>
 
-  <!-- API KEYS -->
-  <div class="api-bar" id="apiBar">
-    <div class="api-bar-title">
-      API Keys
-      <span id="apiSavedBadge" style="display:none;margin-left:8px;background:rgba(0,229,160,.12);border:1px solid rgba(0,229,160,.3);color:#00e5a0;font-family:'Space Mono',monospace;font-size:9px;padding:2px 8px;border-radius:10px;letter-spacing:.5px;">✓ ĐÃ LƯU</span>
-      <button id="apiEditBtn" onclick="toggleApiEdit()" style="margin-left:auto;background:none;border:1px solid var(--border2);color:var(--text-muted);font-family:'Space Mono',monospace;font-size:9px;padding:3px 10px;border-radius:6px;cursor:pointer;transition:all .15s;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text-muted)'">✏ Chỉnh sửa</button>
-    </div>
-
-    <!-- Saved summary (shown when keys are saved) -->
-    <div id="apiSavedSummary" style="display:none;gap:16px;flex-wrap:wrap;margin-top:4px;">
-      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);">🍌 Google: <span id="summaryGoogle" style="color:#00e5a0"></span></div>
-      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);">🎬 Kling Access: <span id="summaryKlingA" style="color:#00e5a0"></span></div>
-      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--text-dim);">🔑 Kling Secret: <span id="summaryKlingS" style="color:#00e5a0"></span></div>
-    </div>
-
-    <!-- Edit form (hidden when saved) -->
-    <div id="apiEditForm">
-      <div class="api-keys-grid" style="margin-top:12px;">
-        <div class="api-key-field">
-          <div class="api-key-label">Google AI Studio (Nano Banana)</div>
-          <div class="api-key-input-wrap">
-            <input type="password" id="googleKey" placeholder="AIza..." oninput="updateKeyStatus('googleKey','googleKeyStatus')" />
-            <span class="key-status empty" id="googleKeyStatus">○</span>
-          </div>
-        </div>
-        <div class="api-key-field">
-          <div class="api-key-label">Kling AI — Access Key</div>
-          <div class="api-key-input-wrap">
-            <input type="password" id="klingAccess" placeholder="Access Key..." oninput="updateKeyStatus('klingAccess','klingAccessStatus')" />
-            <span class="key-status empty" id="klingAccessStatus">○</span>
-          </div>
-        </div>
-        <div class="api-key-field">
-          <div class="api-key-label">Kling AI — Secret Key</div>
-          <div class="api-key-input-wrap">
-            <input type="password" id="klingSecret" placeholder="Secret Key..." oninput="updateKeyStatus('klingSecret','klingSecretStatus')" />
-            <span class="key-status empty" id="klingSecretStatus">○</span>
-          </div>
-        </div>
-      </div>
-      <div style="display:flex;gap:8px;margin-top:12px;">
-        <button onclick="saveApiKeys()" style="background:linear-gradient(135deg,rgba(0,229,160,.2),rgba(0,229,160,.1));border:1px solid rgba(0,229,160,.4);color:#00e5a0;font-family:'Space Mono',monospace;font-size:10px;padding:7px 16px;border-radius:8px;cursor:pointer;letter-spacing:.5px;transition:all .2s;" onmouseover="this.style.background='rgba(0,229,160,.25)'" onmouseout="this.style.background='linear-gradient(135deg,rgba(0,229,160,.2),rgba(0,229,160,.1))'">💾 Lưu Keys</button>
-        <button onclick="clearApiKeys()" style="background:none;border:1px solid rgba(255,77,109,.3);color:rgba(255,77,109,.7);font-family:'Space Mono',monospace;font-size:10px;padding:7px 16px;border-radius:8px;cursor:pointer;letter-spacing:.5px;transition:all .2s;" onmouseover="this.style.borderColor='#ff4d6d';this.style.color='#ff4d6d'" onmouseout="this.style.borderColor='rgba(255,77,109,.3)';this.style.color='rgba(255,77,109,.7)'">🗑 Xóa Keys</button>
-      </div>
-    </div>
-  </div>
+  <!-- API Keys managed server-side -->
 
   <!-- SCRIPT INPUT -->
   <div class="card" style="margin-bottom:20px">
@@ -384,85 +326,8 @@ let lastData = null;        // full parsed JSON from Claude
 let selections = {};        // { sceneIdx: { imgOpt: 0, vidOpt: 0 } }
 
 // ─────────────────────────────────────────────
-//  API KEY STATUS + STORAGE
+//  API KEYS — managed server-side (no user input needed)
 // ─────────────────────────────────────────────
-function updateKeyStatus(inputId, statusId) {
-  const val = document.getElementById(inputId).value.trim();
-  const el = document.getElementById(statusId);
-  if (val.length > 6) { el.textContent = '●'; el.className = 'key-status ok'; }
-  else { el.textContent = '○'; el.className = 'key-status empty'; }
-}
-function getKey(id) { return document.getElementById(id).value.trim(); }
-
-function maskKey(k) {
-  if (!k || k.length < 8) return '—';
-  return k.slice(0, 4) + '••••••••' + k.slice(-4);
-}
-
-async function saveApiKeys() {
-  const gk = document.getElementById('googleKey').value.trim();
-  const ka = document.getElementById('klingAccess').value.trim();
-  const ks = document.getElementById('klingSecret').value.trim();
-  try {
-    localStorage.setItem('apikeys', JSON.stringify({ gk, ka, ks }));
-    showSavedState(gk, ka, ks);
-  } catch(e) {
-    alert('Không lưu được: ' + e.message);
-  }
-}
-
-async function loadApiKeys() {
-  try {
-    const raw = localStorage.getItem('apikeys');
-    if (!raw) return;
-    const { gk, ka, ks } = JSON.parse(raw);
-    if (gk) { document.getElementById('googleKey').value = gk; updateKeyStatus('googleKey','googleKeyStatus'); }
-    if (ka) { document.getElementById('klingAccess').value = ka; updateKeyStatus('klingAccess','klingAccessStatus'); }
-    if (ks) { document.getElementById('klingSecret').value = ks; updateKeyStatus('klingSecret','klingSecretStatus'); }
-    if (gk || ka || ks) showSavedState(gk, ka, ks);
-  } catch(e) {
-    // No saved keys yet — show edit form
-  }
-}
-
-async function clearApiKeys() {
-  if (!confirm('Xóa tất cả API keys đã lưu?')) return;
-  try {
-    localStorage.removeItem('apikeys');
-    document.getElementById('googleKey').value = '';
-    document.getElementById('klingAccess').value = '';
-    document.getElementById('klingSecret').value = '';
-    ['googleKeyStatus','klingAccessStatus','klingSecretStatus'].forEach(id => {
-      const el = document.getElementById(id);
-      el.textContent = '○'; el.className = 'key-status empty';
-    });
-    showEditState();
-  } catch(e) {}
-}
-
-function showSavedState(gk, ka, ks) {
-  document.getElementById('apiSavedBadge').style.display = 'inline-flex';
-  document.getElementById('apiEditBtn').style.display = 'inline-block';
-  document.getElementById('apiEditForm').style.display = 'none';
-  const summary = document.getElementById('apiSavedSummary');
-  summary.style.display = 'flex';
-  document.getElementById('summaryGoogle').textContent = maskKey(gk);
-  document.getElementById('summaryKlingA').textContent = maskKey(ka);
-  document.getElementById('summaryKlingS').textContent = maskKey(ks);
-}
-
-function showEditState() {
-  document.getElementById('apiSavedBadge').style.display = 'none';
-  document.getElementById('apiEditForm').style.display = 'block';
-  document.getElementById('apiSavedSummary').style.display = 'none';
-}
-
-function toggleApiEdit() {
-  const form = document.getElementById('apiEditForm');
-  const isHidden = form.style.display === 'none' || form.style.display === '';
-  form.style.display = isHidden ? 'block' : 'none';
-  document.getElementById('apiEditBtn').textContent = isHidden ? '✕ Đóng' : '✏ Chỉnh sửa';
-}
 
 // ─────────────────────────────────────────────
 //  PHOTO UPLOAD
@@ -491,7 +356,6 @@ function renderPreviews() {
   document.getElementById('uploadZone').style.display = uploadedPhotos.length >= 4 ? 'none' : 'block';
 }
 document.addEventListener('DOMContentLoaded', () => {
-  loadApiKeys();
   const z = document.getElementById('uploadZone');
   z.addEventListener('dragover', e => { e.preventDefault(); z.classList.add('dragover'); });
   z.addEventListener('dragleave', () => z.classList.remove('dragover'));
@@ -819,8 +683,6 @@ function toggleScene(si) {
 //  Solution: Claude calls Gemini server-side via tool_use and returns the image.
 // ─────────────────────────────────────────────
 async function genImage(si) {
-  const googleKey = getKey('googleKey');
-  if (!googleKey) { alert('Vui lòng nhập Google AI Studio API Key.'); return; }
   if (!lastData?.scenes?.[si]) return;
 
   const optIdx = selections[si]?.imgOpt ?? 0;
@@ -864,7 +726,7 @@ async function genImage(si) {
     const r = await fetch('/api/gemini', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model, payload: geminiPayload, apiKey: googleKey })
+      body: JSON.stringify({ model, payload: geminiPayload })
     });
 
     const data = await r.json();
@@ -875,7 +737,7 @@ async function genImage(si) {
 
     if (!imagePart) {
       const textPart = resParts.find(p => p.text);
-      throw new Error(textPart?.text || 'API không trả về ảnh. Kiểm tra lại API key hoặc thử model khác.');
+      throw new Error(textPart?.text || 'API không trả về ảnh. Vui lòng thử lại hoặc chọn model khác.');
     }
 
     const b64 = imagePart.inlineData.data;
@@ -906,9 +768,6 @@ async function genImage(si) {
 //  image2video if reference/generated image available, else text2video
 // ─────────────────────────────────────────────
 async function genVideo(si) {
-  const accessKey = getKey('klingAccess');
-  const secretKey = getKey('klingSecret');
-  if (!accessKey || !secretKey) { alert('Vui lòng nhập Kling AI Access Key và Secret Key.'); return; }
   if (!lastData?.scenes?.[si]) return;
 
   const optIdx = selections[si]?.vidOpt ?? 0;
@@ -941,7 +800,6 @@ async function genVideo(si) {
   previewEl.classList.add('show');
 
   try {
-    const jwt = await generateKlingJWT(accessKey, secretKey);
     const charDesc = lastData._charDesc || 'the person from reference photo';
     const finalPrompt = opt.prompt.replace(/\{\{CHARACTER\}\}/g, charDesc);
 
@@ -977,7 +835,7 @@ async function genVideo(si) {
     const submitResp = await fetch('/api/kling', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ jwt, endpoint: submitUrl, body: submitBody })
+      body: JSON.stringify({ endpoint: submitUrl, body: submitBody })
     });
 
     if (!submitResp.ok) {
@@ -998,7 +856,7 @@ async function genVideo(si) {
       ? `https://api.klingai.com/v1/videos/image2video/${taskId}`
       : `https://api.klingai.com/v1/videos/text2video/${taskId}`;
 
-    const videoUrl = await pollKlingTask(taskId, accessKey, secretKey, (msg) => {
+    const videoUrl = await pollKlingTask(taskId, (msg) => {
       contentEl.innerHTML = `<div class="kling-polling-msg">${msg}</div>`;
     }, pollBase);
 
@@ -1017,36 +875,14 @@ async function genVideo(si) {
 }
 
 // ─────────────────────────────────────────────
-//  KLING JWT (HMAC-SHA256, browser native)
+//  KLING POLLING (JWT generated server-side)
 // ─────────────────────────────────────────────
-async function generateKlingJWT(accessKey, secretKey) {
-  const now = Math.floor(Date.now() / 1000);
-  const header = { alg: 'HS256', typ: 'JWT' };
-  const payload = { iss: accessKey, exp: now + 1800, nbf: now - 5 };
-
-  const b64url = obj => btoa(JSON.stringify(obj)).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
-  const signingInput = `${b64url(header)}.${b64url(payload)}`;
-
-  const keyData = new TextEncoder().encode(secretKey);
-  const msgData = new TextEncoder().encode(signingInput);
-  const cryptoKey = await crypto.subtle.importKey('raw', keyData, { name:'HMAC', hash:'SHA-256' }, false, ['sign']);
-  const sig = await crypto.subtle.sign('HMAC', cryptoKey, msgData);
-  const sigB64 = btoa(String.fromCharCode(...new Uint8Array(sig))).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
-
-  return `${signingInput}.${sigB64}`;
-}
-
-// ─────────────────────────────────────────────
-//  KLING POLLING
-// ─────────────────────────────────────────────
-async function pollKlingTask(taskId, accessKey, secretKey, onStatus, pollUrl) {
+async function pollKlingTask(taskId, onStatus, pollUrl) {
   const maxAttempts = 60;
-  // Accept custom pollUrl (image2video vs text2video have different endpoints)
   const url = pollUrl || `https://api.klingai.com/v1/videos/text2video/${taskId}`;
   for (let i = 0; i < maxAttempts; i++) {
     await sleep(5000);
-    const jwt = await generateKlingJWT(accessKey, secretKey);
-    const r = await fetch(`/api/kling?jwt=${encodeURIComponent(jwt)}&endpoint=${encodeURIComponent(url)}`);
+    const r = await fetch(`/api/kling?endpoint=${encodeURIComponent(url)}`);
     if (!r.ok) continue;
     const d = await r.json();
     if (d.code !== 0) throw new Error(d.message || 'Polling error');

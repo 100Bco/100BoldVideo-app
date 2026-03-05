@@ -10,13 +10,13 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const { model, payload } = req.body;
-  const apiKey = process.env.GOOGLE_API_KEY || req.body.apiKey;
+  const apiKey = process.env.GOOGLE_API_KEY;
 
   if (!model || !payload) {
     return res.status(400).json({ error: 'Missing model or payload' });
   }
   if (!apiKey) {
-    return res.status(400).json({ error: 'Missing Google API key' });
+    return res.status(500).json({ error: 'Google API key not configured on server' });
   }
 
   try {

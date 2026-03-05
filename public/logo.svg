@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 120" fill="none">
+  <text x="0" y="52" font-family="Inter, Arial, Helvetica, sans-serif" font-weight="900" font-size="58" fill="#4a4545" letter-spacing="-3">100</text>
+  <text x="0" y="110" font-family="Inter, Arial, Helvetica, sans-serif" font-weight="900" font-size="58" fill="#4a4545" letter-spacing="-2">BOLD</text>
+  <circle cx="178" cy="72" r="10" fill="#cc0000"/>
+</svg>

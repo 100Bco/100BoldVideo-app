@@ -3,52 +3,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Video Prompt Generator</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<title>100Bold Video Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #060910;
-  --surface: #0c1120;
-  --surface2: #111826;
-  --surface3: #161e2e;
-  --border: #1a2538;
-  --border2: #243044;
-  --accent: #00d4ff;
-  --accent2: #7b2fff;
-  --accent3: #ff4d6d;
-  --green: #00e5a0;
-  --orange: #ff9500;
-  --text: #e2e8f5;
-  --text-muted: #5a6a84;
-  --text-dim: #8895aa;
+  --bg: #ffffff;
+  --surface: #f7f7f8;
+  --surface2: #f0f1f3;
+  --surface3: #e8e9ec;
+  --border: #e0e0e0;
+  --border2: #d0d0d0;
+  --accent: #cc0000;
+  --accent2: #cc0000;
+  --accent3: #cc0000;
+  --green: #1a8a5c;
+  --orange: #e68a00;
+  --text: #1a1a1a;
+  --text-muted: #888888;
+  --text-dim: #555555;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
-body { background:var(--bg); color:var(--text); font-family:'Syne',sans-serif; min-height:100vh; overflow-x:hidden; }
+body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; min-height:100vh; overflow-x:hidden; }
 body::before {
-  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background: radial-gradient(ellipse 70% 50% at 15% 15%, rgba(123,47,255,0.07) 0%,transparent 60%),
-              radial-gradient(ellipse 60% 40% at 85% 85%, rgba(0,212,255,0.05) 0%,transparent 60%);
+  content:''; position:fixed; top:0; left:0; right:0; height:4px; z-index:100;
+  background: var(--accent);
 }
 .wrap { max-width:1140px; margin:0 auto; padding:0 24px; position:relative; z-index:1; }
 
 /* ── HEADER ── */
-header { padding:36px 0 28px; display:flex; align-items:center; gap:16px; border-bottom:1px solid var(--border); margin-bottom:40px; }
-.logo { width:44px; height:44px; background:linear-gradient(135deg,var(--accent2),var(--accent)); border-radius:11px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; box-shadow:0 0 24px rgba(123,47,255,0.45); }
-.header-text h1 { font-size:20px; font-weight:800; letter-spacing:-.5px; background:linear-gradient(90deg,#fff 0%,var(--accent) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
-.header-text p { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-muted); margin-top:2px; letter-spacing:.5px; }
-.badge { margin-left:auto; background:rgba(0,212,255,.1); border:1px solid rgba(0,212,255,.25); color:var(--accent); font-family:'Space Mono',monospace; font-size:10px; padding:4px 10px; border-radius:20px; letter-spacing:1px; white-space:nowrap; }
-
-/* ── API KEYS BAR ── */
+header { padding:28px 0 20px; display:flex; align-items:center; gap:14px; border-bottom:1px solid var(--border); margin-bottom:36px; }
+.logo { height:40px; flex-shrink:0; }
+.logo img { height:100%; width:auto; display:block; }
+.header-text h1 { font-size:18px; font-weight:700; color:var(--text); letter-spacing:-.3px; }
+.header-text p { font-size:11px; color:var(--text-muted); margin-top:2px; letter-spacing:.3px; font-weight:500; }
+.badge { margin-left:auto; background:var(--surface); border:1px solid var(--border); color:var(--text-dim); font-size:10px; font-weight:600; padding:4px 12px; border-radius:20px; letter-spacing:.5px; white-space:nowrap; }
 
 /* ── CARDS ── */
-.card { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:22px; }
-.card-title { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--text-muted); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
-.card-title::before { content:''; width:5px; height:5px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px var(--accent); display:block; }
-.field-label { font-family:'Space Mono',monospace; font-size:10px; color:var(--text-muted); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
-textarea { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:11px; color:var(--text); font-family:'Syne',sans-serif; font-size:14px; line-height:1.7; padding:14px; resize:vertical; min-height:150px; transition:border-color .2s; outline:none; }
-textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,212,255,.08); }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px; }
+.card-title { font-size:11px; font-weight:700; letter-spacing:1.5px; color:var(--text-muted); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.card-title::before { content:''; width:4px; height:4px; border-radius:50%; background:var(--accent); display:block; }
+.field-label { font-size:11px; font-weight:600; color:var(--text-muted); letter-spacing:.5px; text-transform:uppercase; margin-bottom:6px; }
+textarea { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:var(--text); font-family:'Inter',sans-serif; font-size:14px; line-height:1.7; padding:14px; resize:vertical; min-height:150px; transition:border-color .2s; outline:none; }
+textarea:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(204,0,0,.06); }
 textarea::placeholder { color:var(--text-muted); }
-select, input[type="text"] { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:9px; color:var(--text); font-family:'Syne',sans-serif; font-size:13px; padding:9px 12px; outline:none; transition:border-color .2s; appearance:none; -webkit-appearance:none; }
+select, input[type="text"] { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Inter',sans-serif; font-size:13px; padding:9px 12px; outline:none; transition:border-color .2s; appearance:none; -webkit-appearance:none; }
 select:focus, input[type="text"]:focus { border-color:var(--accent); }
 .select-wrap { position:relative; }
 .select-wrap::after { content:'▾'; position:absolute; right:11px; top:50%; transform:translateY(-50%); color:var(--text-muted); pointer-events:none; font-size:11px; }
@@ -58,51 +56,51 @@ select:focus, input[type="text"]:focus { border-color:var(--accent); }
 @media(max-width:700px){ .settings-grid { grid-template-columns:1fr; } }
 
 /* ── PHOTO UPLOAD ── */
-.photo-upload-zone { border:2px dashed var(--border); border-radius:11px; padding:18px 14px; text-align:center; cursor:pointer; transition:all .2s; background:var(--surface2); position:relative; }
-.photo-upload-zone:hover, .photo-upload-zone.dragover { border-color:var(--accent); background:rgba(0,212,255,.04); }
+.photo-upload-zone { border:2px dashed var(--border); border-radius:10px; padding:18px 14px; text-align:center; cursor:pointer; transition:all .2s; background:var(--bg); position:relative; }
+.photo-upload-zone:hover, .photo-upload-zone.dragover { border-color:var(--accent); background:rgba(204,0,0,.02); }
 .photo-upload-zone input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; padding:0; border:none; background:none; }
-.upload-icon { font-size:24px; margin-bottom:6px; }
+.upload-icon { font-size:16px; margin-bottom:6px; color:var(--text-muted); font-weight:600; }
 .upload-hint { font-size:12px; color:var(--text-muted); line-height:1.5; }
 .upload-hint strong { color:var(--accent); font-weight:600; }
 .photo-previews { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
-.photo-thumb { position:relative; width:64px; height:64px; border-radius:9px; overflow:hidden; border:2px solid var(--border); flex-shrink:0; }
+.photo-thumb { position:relative; width:64px; height:64px; border-radius:8px; overflow:hidden; border:2px solid var(--border); flex-shrink:0; }
 .photo-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
-.photo-thumb .thumb-label { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.7); font-family:'Space Mono',monospace; font-size:8px; text-align:center; padding:2px 0; color:var(--accent); }
-.photo-thumb .remove-btn { position:absolute; top:2px; right:2px; width:16px; height:16px; border-radius:50%; background:rgba(255,77,109,.9); border:none; color:#fff; font-size:9px; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .15s; }
+.photo-thumb .thumb-label { position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,.7); font-size:9px; font-weight:600; text-align:center; padding:2px 0; color:#fff; }
+.photo-thumb .remove-btn { position:absolute; top:2px; right:2px; width:16px; height:16px; border-radius:50%; background:rgba(204,0,0,.9); border:none; color:#fff; font-size:9px; cursor:pointer; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .15s; }
 .photo-thumb:hover .remove-btn { opacity:1; }
-.ai-tag { display:inline-flex; align-items:center; gap:5px; background:rgba(123,47,255,.15); border:1px solid rgba(123,47,255,.3); color:#a78bfa; font-family:'Space Mono',monospace; font-size:9px; padding:3px 8px; border-radius:20px; margin-top:6px; }
+.ai-tag { display:inline-flex; align-items:center; gap:5px; background:rgba(204,0,0,.06); border:1px solid rgba(204,0,0,.15); color:var(--accent); font-size:10px; font-weight:600; padding:3px 10px; border-radius:20px; margin-top:6px; }
 
 /* ── GENERATE BTN ── */
-.gen-btn { width:100%; padding:17px; background:linear-gradient(135deg,var(--accent2) 0%,var(--accent) 100%); border:none; border-radius:12px; color:#fff; font-family:'Syne',sans-serif; font-size:16px; font-weight:700; letter-spacing:.3px; cursor:pointer; transition:all .2s; margin-top:6px; }
-.gen-btn:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 28px rgba(123,47,255,.45); }
+.gen-btn { width:100%; padding:17px; background:var(--accent); border:none; border-radius:10px; color:#fff; font-family:'Inter',sans-serif; font-size:15px; font-weight:700; letter-spacing:.3px; cursor:pointer; transition:all .2s; margin-top:6px; }
+.gen-btn:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 6px 20px rgba(204,0,0,.3); }
 .gen-btn:disabled { opacity:.55; cursor:not-allowed; transform:none; }
 .gen-btn .btn-inner { display:flex; align-items:center; justify-content:center; gap:10px; }
 .spinner { width:17px; height:17px; border:2px solid rgba(255,255,255,.3); border-top-color:#fff; border-radius:50%; animation:spin .7s linear infinite; display:none; }
 @keyframes spin { to { transform:rotate(360deg); } }
-.progress-bar { height:2px; background:var(--border); border-radius:1px; overflow:hidden; margin-top:10px; display:none; }
-.progress-fill { height:100%; background:linear-gradient(90deg,var(--accent2),var(--accent)); border-radius:1px; width:0%; transition:width .3s; }
-.status-text { font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); text-align:center; margin-top:8px; min-height:16px; }
-.error-msg { background:rgba(255,77,109,.1); border:1px solid rgba(255,77,109,.3); color:#ff4d6d; border-radius:11px; padding:14px 18px; font-size:13px; display:none; margin-top:14px; }
+.progress-bar { height:3px; background:var(--border); border-radius:2px; overflow:hidden; margin-top:10px; display:none; }
+.progress-fill { height:100%; background:var(--accent); border-radius:2px; width:0%; transition:width .3s; }
+.status-text { font-size:11px; font-weight:500; color:var(--text-dim); text-align:center; margin-top:8px; min-height:16px; }
+.error-msg { background:rgba(204,0,0,.06); border:1px solid rgba(204,0,0,.2); color:var(--accent); border-radius:10px; padding:14px 18px; font-size:13px; display:none; margin-top:14px; }
 
 /* ── RESULTS ── */
 #results-section { display:none; margin-top:40px; }
 .results-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:10px; }
 .results-title { font-size:18px; font-weight:800; }
 .results-actions { display:flex; gap:8px; }
-.outline-btn { background:rgba(0,212,255,.08); border:1px solid rgba(0,212,255,.25); color:var(--accent); font-family:'Space Mono',monospace; font-size:10px; padding:7px 14px; border-radius:8px; cursor:pointer; transition:all .2s; letter-spacing:.5px; white-space:nowrap; }
-.outline-btn:hover { background:rgba(0,212,255,.18); }
+.outline-btn { background:var(--surface); border:1px solid var(--border); color:var(--text-dim); font-size:11px; font-weight:600; padding:8px 16px; border-radius:8px; cursor:pointer; transition:all .2s; white-space:nowrap; }
+.outline-btn:hover { border-color:var(--accent); color:var(--accent); }
 
 /* ── CHARACTER CARD ── */
-.char-card { background:rgba(123,47,255,.07); border:1px solid rgba(123,47,255,.22); border-radius:13px; padding:14px 18px; margin-bottom:18px; }
-.char-card-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:2px; color:#a78bfa; margin-bottom:6px; text-transform:uppercase; }
-.char-card-text { font-size:12px; line-height:1.7; color:#c4b5fd; }
+.char-card { background:rgba(204,0,0,.03); border:1px solid rgba(204,0,0,.12); border-radius:12px; padding:14px 18px; margin-bottom:18px; }
+.char-card-label { font-size:10px; font-weight:700; letter-spacing:1.5px; color:var(--accent); margin-bottom:6px; text-transform:uppercase; }
+.char-card-text { font-size:12px; line-height:1.7; color:var(--text-dim); }
 
 /* ── SCENE CARD ── */
-.scene-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; margin-bottom:14px; overflow:hidden; animation:fadeUp .4s ease both; }
+.scene-card { background:var(--bg); border:1px solid var(--border); border-radius:12px; margin-bottom:14px; overflow:hidden; animation:fadeUp .4s ease both; }
 @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
-.scene-header { display:flex; align-items:center; gap:14px; padding:14px 18px; background:var(--surface2); border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s; }
-.scene-header:hover { background:var(--surface3); }
-.scene-num { width:30px; height:30px; background:linear-gradient(135deg,var(--accent2),var(--accent)); border-radius:7px; display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:11px; font-weight:700; flex-shrink:0; }
+.scene-header { display:flex; align-items:center; gap:14px; padding:14px 18px; background:var(--surface); border-bottom:1px solid var(--border); cursor:pointer; transition:background .2s; }
+.scene-header:hover { background:var(--surface2); }
+.scene-num { width:30px; height:30px; background:var(--accent); border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; color:#fff; }
 .scene-dialogue { font-size:13px; color:var(--text-dim); font-style:italic; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .scene-chevron { color:var(--text-muted); font-size:11px; transition:transform .2s; flex-shrink:0; }
 .scene-chevron.open { transform:rotate(180deg); }
@@ -113,68 +111,68 @@ select:focus, input[type="text"]:focus { border-color:var(--accent); }
 .prompt-section { padding:16px 18px; border-bottom:1px solid var(--border); }
 .prompt-section:last-child { border-bottom:none; }
 .prompt-section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; }
-.section-badge { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; padding:3px 9px; border-radius:4px; font-weight:700; }
-.section-badge.img-badge { background:rgba(123,47,255,.18); color:#a78bfa; border:1px solid rgba(123,47,255,.3); }
-.section-badge.vid-badge { background:rgba(0,212,255,.12); color:var(--accent); border:1px solid rgba(0,212,255,.28); }
-.consistency-note { font-family:'Space Mono',monospace; font-size:9px; color:var(--text-muted); }
+.section-badge { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:3px 10px; border-radius:4px; }
+.section-badge.img-badge { background:rgba(204,0,0,.08); color:var(--accent); border:1px solid rgba(204,0,0,.15); }
+.section-badge.vid-badge { background:rgba(26,26,26,.06); color:var(--text-dim); border:1px solid var(--border); }
+.consistency-note { font-size:10px; font-weight:500; color:var(--text-muted); }
 
 /* ── OPTIONS ── */
 .options-grid { display:flex; flex-direction:column; gap:8px; }
-.option-item { border:1px solid var(--border2); border-radius:10px; overflow:hidden; cursor:pointer; transition:all .18s; }
-.option-item:hover { border-color:rgba(0,212,255,.35); }
-.option-item.selected-img { border-color:var(--accent2) !important; box-shadow:0 0 0 2px rgba(123,47,255,.25); }
-.option-item.selected-vid { border-color:var(--accent) !important; box-shadow:0 0 0 2px rgba(0,212,255,.2); }
-.option-header { display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--surface2); }
+.option-item { border:1px solid var(--border); border-radius:10px; overflow:hidden; cursor:pointer; transition:all .18s; background:var(--bg); }
+.option-item:hover { border-color:var(--border2); }
+.option-item.selected-img { border-color:var(--accent) !important; box-shadow:0 0 0 2px rgba(204,0,0,.1); }
+.option-item.selected-vid { border-color:var(--text) !important; box-shadow:0 0 0 2px rgba(26,26,26,.08); }
+.option-header { display:flex; align-items:center; gap:10px; padding:10px 14px; background:var(--surface); }
 .option-radio { width:16px; height:16px; border-radius:50%; border:2px solid var(--border2); flex-shrink:0; display:flex; align-items:center; justify-content:center; transition:all .15s; }
-.option-item.selected-img .option-radio { border-color:var(--accent2); background:var(--accent2); }
-.option-item.selected-vid .option-radio { border-color:var(--accent); background:var(--accent); }
+.option-item.selected-img .option-radio { border-color:var(--accent); background:var(--accent); }
+.option-item.selected-vid .option-radio { border-color:var(--text); background:var(--text); }
 .option-radio-dot { width:6px; height:6px; border-radius:50%; background:#fff; display:none; }
 .option-item.selected-img .option-radio-dot,
 .option-item.selected-vid .option-radio-dot { display:block; }
-.option-label { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:.5px; }
-.option-item.selected-img .option-label { color:#a78bfa; }
-.option-item.selected-vid .option-label { color:var(--accent); }
-.option-style-tag { margin-left:auto; font-family:'Space Mono',monospace; font-size:9px; padding:2px 7px; border-radius:4px; }
-.option-item.selected-img .option-style-tag { background:rgba(123,47,255,.2); color:#a78bfa; }
-.option-item.selected-vid .option-style-tag { background:rgba(0,212,255,.12); color:var(--accent); }
-.option-text { padding:10px 14px 12px; font-size:12px; line-height:1.75; color:var(--text); background:var(--surface); }
+.option-label { font-size:11px; font-weight:600; letter-spacing:.3px; }
+.option-item.selected-img .option-label { color:var(--accent); }
+.option-item.selected-vid .option-label { color:var(--text); }
+.option-style-tag { margin-left:auto; font-size:10px; font-weight:500; padding:2px 8px; border-radius:4px; }
+.option-item.selected-img .option-style-tag { background:rgba(204,0,0,.08); color:var(--accent); }
+.option-item.selected-vid .option-style-tag { background:var(--surface2); color:var(--text-dim); }
+.option-text { padding:10px 14px 12px; font-size:12px; line-height:1.75; color:var(--text); background:var(--bg); }
 .option-copy-row { display:flex; justify-content:flex-end; padding:0 14px 10px; }
-.copy-btn { background:none; border:1px solid var(--border2); color:var(--text-muted); font-family:'Space Mono',monospace; font-size:9px; padding:3px 9px; border-radius:5px; cursor:pointer; transition:all .15s; }
+.copy-btn { background:none; border:1px solid var(--border); color:var(--text-muted); font-size:10px; font-weight:600; padding:3px 10px; border-radius:5px; cursor:pointer; transition:all .15s; }
 .copy-btn:hover { border-color:var(--accent); color:var(--accent); }
 .copy-btn.copied { border-color:var(--green); color:var(--green); }
 
 /* ── GEN ACTIONS ── */
-.gen-actions { display:flex; gap:10px; padding:14px 18px; background:var(--surface3); border-top:1px solid var(--border); flex-wrap:wrap; }
-.gen-img-btn { flex:1; min-width:140px; display:flex; align-items:center; justify-content:center; gap:7px; padding:10px 16px; background:linear-gradient(135deg,rgba(123,47,255,.25),rgba(123,47,255,.12)); border:1px solid rgba(123,47,255,.45); border-radius:9px; color:#c4b5fd; font-family:'Syne',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .18s; }
-.gen-img-btn:hover:not(:disabled) { background:linear-gradient(135deg,rgba(123,47,255,.45),rgba(123,47,255,.25)); box-shadow:0 4px 18px rgba(123,47,255,.3); }
-.gen-vid-btn { flex:1; min-width:140px; display:flex; align-items:center; justify-content:center; gap:7px; padding:10px 16px; background:linear-gradient(135deg,rgba(0,212,255,.18),rgba(0,212,255,.07)); border:1px solid rgba(0,212,255,.4); border-radius:9px; color:var(--accent); font-family:'Syne',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .18s; }
-.gen-vid-btn:hover:not(:disabled) { background:linear-gradient(135deg,rgba(0,212,255,.3),rgba(0,212,255,.15)); box-shadow:0 4px 18px rgba(0,212,255,.2); }
+.gen-actions { display:flex; gap:10px; padding:14px 18px; background:var(--surface); border-top:1px solid var(--border); flex-wrap:wrap; }
+.gen-img-btn { flex:1; min-width:140px; display:flex; align-items:center; justify-content:center; gap:7px; padding:10px 16px; background:var(--accent); border:none; border-radius:8px; color:#fff; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .18s; }
+.gen-img-btn:hover:not(:disabled) { box-shadow:0 4px 14px rgba(204,0,0,.25); }
+.gen-vid-btn { flex:1; min-width:140px; display:flex; align-items:center; justify-content:center; gap:7px; padding:10px 16px; background:var(--text); border:none; border-radius:8px; color:#fff; font-family:'Inter',sans-serif; font-size:13px; font-weight:600; cursor:pointer; transition:all .18s; }
+.gen-vid-btn:hover:not(:disabled) { box-shadow:0 4px 14px rgba(26,26,26,.2); }
 .gen-img-btn:disabled, .gen-vid-btn:disabled { opacity:.45; cursor:not-allowed; }
 .btn-spinner { width:14px; height:14px; border:2px solid rgba(255,255,255,.25); border-top-color:currentColor; border-radius:50%; animation:spin .7s linear infinite; display:none; }
 
 /* ── RESULT PREVIEW ── */
 .result-preview { padding:14px 18px; border-top:1px solid var(--border); display:none; }
 .result-preview.show { display:block; }
-.preview-label { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:1.5px; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase; }
-.preview-img { width:100%; max-height:320px; object-fit:contain; border-radius:10px; border:1px solid var(--border2); background:var(--surface2); display:block; }
-.preview-video { width:100%; border-radius:10px; border:1px solid var(--border2); display:block; }
+.preview-label { font-size:10px; font-weight:700; letter-spacing:1px; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase; }
+.preview-img { width:100%; max-height:320px; object-fit:contain; border-radius:10px; border:1px solid var(--border); background:var(--surface); display:block; }
+.preview-video { width:100%; border-radius:10px; border:1px solid var(--border); display:block; }
 .preview-actions { display:flex; gap:8px; margin-top:8px; flex-wrap:wrap; }
-.download-btn { background:rgba(0,229,160,.1); border:1px solid rgba(0,229,160,.3); color:var(--green); font-family:'Space Mono',monospace; font-size:9px; padding:5px 12px; border-radius:6px; cursor:pointer; text-decoration:none; display:inline-block; }
-.kling-polling-msg { font-family:'Space Mono',monospace; font-size:10px; color:var(--orange); animation:pulse .8s ease-in-out infinite; }
+.download-btn { background:rgba(26,138,92,.08); border:1px solid rgba(26,138,92,.2); color:var(--green); font-size:10px; font-weight:600; padding:5px 12px; border-radius:6px; cursor:pointer; text-decoration:none; display:inline-block; }
+.kling-polling-msg { font-size:11px; font-weight:500; color:var(--orange); animation:pulse .8s ease-in-out infinite; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.5} }
-.gen-error { font-family:'Space Mono',monospace; font-size:10px; color:var(--accent3); margin-top:6px; }
+.gen-error { font-size:11px; font-weight:500; color:var(--accent); margin-top:6px; }
 
 /* ── NOTES ── */
-.notes-card { background:rgba(0,212,255,.04); border:1px solid rgba(0,212,255,.18); border-radius:14px; padding:18px 22px; margin-top:10px; }
+.notes-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 22px; margin-top:10px; }
 .notes-content { font-size:13px; line-height:1.8; color:var(--text-dim); white-space:pre-wrap; }
 
 /* ── FOOTER ── */
-footer { text-align:center; padding:36px 0 28px; font-family:'Space Mono',monospace; font-size:10px; color:var(--text-muted); border-top:1px solid var(--border); margin-top:48px; }
+footer { text-align:center; padding:36px 0 28px; font-size:11px; font-weight:500; color:var(--text-muted); border-top:1px solid var(--border); margin-top:48px; }
 
 /* scrollbar */
 ::-webkit-scrollbar { width:5px; }
-::-webkit-scrollbar-track { background:var(--bg); }
-::-webkit-scrollbar-thumb { background:var(--border); border-radius:3px; }
+::-webkit-scrollbar-track { background:var(--surface); }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
 </style>
 </head>
 <body>
@@ -182,10 +180,10 @@ footer { text-align:center; padding:36px 0 28px; font-family:'Space Mono',monosp
 
   <!-- HEADER -->
   <header>
-    <div class="logo">🎬</div>
+    <div class="logo"><img src="/logo.svg" alt="100Bold" /></div>
     <div class="header-text">
-      <h1>AI Video Prompt Generator</h1>
-      <p>NANO BANANA · KLING AI · RUNWAY · LUMA · MIDJOURNEY</p>
+      <h1>Video Generator</h1>
+      <p>NANO BANANA · KLING AI · GEMINI</p>
     </div>
     <span class="badge">v3 · GEMINI POWERED</span>
   </header>
@@ -237,12 +235,12 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
           </select>
         </div>
       </div>
-      <div>
+      <div style="margin-bottom:13px">
         <div class="field-label">Nano Banana model</div>
         <div class="select-wrap">
           <select id="nanoBananaModel">
-            <option value="gemini-3.1-flash-image-preview">Nano Banana 2 (Gemini 3.1 Flash) ⚡ nhanh nhất</option>
-            <option value="gemini-3-pro-image-preview">Nano Banana Pro (Gemini 3 Pro) ✨ chất lượng cao</option>
+            <option value="gemini-3.1-flash-image-preview">Nano Banana 2 (Gemini 3.1 Flash) — nhanh nhất</option>
+            <option value="gemini-3-pro-image-preview">Nano Banana Pro (Gemini 3 Pro) — chất lượng cao</option>
           </select>
         </div>
       </div>
@@ -250,7 +248,7 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
         <div class="field-label">Kling model</div>
         <div class="select-wrap">
           <select id="klingModel">
-            <option value="kling-v2-5">Kling v2.5 🏆 mới nhất</option>
+            <option value="kling-v2-5">Kling v2.5 — mới nhất</option>
             <option value="kling-v2-1">Kling v2.1</option>
             <option value="kling-v1-6">Kling v1.6 (standard)</option>
           </select>
@@ -264,11 +262,11 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
         <div class="field-label">Ảnh tham chiếu (tối đa 4)</div>
         <div class="photo-upload-zone" id="uploadZone">
           <input type="file" id="photoInput" accept="image/*" multiple onchange="handlePhotoUpload(event)" />
-          <div class="upload-icon">🖼️</div>
+          <div class="upload-icon">Upload</div>
           <div class="upload-hint"><strong>Click hoặc kéo thả ảnh</strong><br>Gemini nhận diện khuôn mặt → gán vào mọi prompt</div>
         </div>
         <div class="photo-previews" id="photoPreviews"></div>
-        <div id="aiTagWrap" style="display:none"><div class="ai-tag">✦ Nhân vật đã được nhận diện</div></div>
+        <div id="aiTagWrap" style="display:none"><div class="ai-tag">Nhân vật đã được nhận diện</div></div>
       </div>
       <div style="margin-bottom:13px">
         <div class="field-label">Ghi chú thêm</div>
@@ -290,7 +288,7 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
   <button class="gen-btn" id="mainGenBtn" onclick="generatePrompts()">
     <div class="btn-inner">
       <div class="spinner" id="mainSpinner"></div>
-      <span id="mainBtnTxt">⚡ Tạo 2 Options Prompt / Cảnh</span>
+      <span id="mainBtnTxt">Tạo 2 Options Prompt / Cảnh</span>
     </div>
   </button>
   <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
@@ -300,10 +298,10 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
   <!-- RESULTS -->
   <div id="results-section" style="display:none">
     <div class="results-header">
-      <div class="results-title">🎬 Chọn Prompt & Generate</div>
+      <div class="results-title">Chọn Prompt & Generate</div>
       <div class="results-actions">
-        <button class="outline-btn" onclick="exportSelected()">📋 Export selected</button>
-        <button class="outline-btn" onclick="exportAll()">📄 Export all</button>
+        <button class="outline-btn" onclick="exportSelected()">Export selected</button>
+        <button class="outline-btn" onclick="exportAll()">Export all</button>
       </div>
     </div>
     <div id="charCardWrap"></div>
@@ -314,7 +312,7 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
     </div>
   </div>
 
-  <footer>AI Video Prompt Generator v3 · Powered by Gemini AI · Built for Vietnamese Creators</footer>
+  <footer>100Bold Video Generator v3 · Powered by Gemini AI</footer>
 </div>
 
 <script>
@@ -379,7 +377,7 @@ function hideError() { document.getElementById('errorMsg').style.display='none';
 function setLoading(on) {
   document.getElementById('mainGenBtn').disabled = on;
   document.getElementById('mainSpinner').style.display = on ? 'block' : 'none';
-  document.getElementById('mainBtnTxt').textContent = on ? 'Đang tạo prompts...' : '⚡ Tạo 2 Options Prompt / Cảnh';
+  document.getElementById('mainBtnTxt').textContent = on ? 'Đang tạo prompts...' : 'Tạo 2 Options Prompt / Cảnh';
   document.getElementById('progressBar').style.display = on ? 'block' : 'none';
 }
 
@@ -405,7 +403,7 @@ async function generatePrompts() {
   // STEP 1 — Analyze character from photos
   let charDesc = charExtra || 'the person from the reference images, locked face and hairstyle';
   if (hasPhotos) {
-    setStatus('🔍 Phân tích nhân vật từ ảnh...');
+    setStatus('Phân tích nhân vật từ ảnh...');
     animProg(20, 40, 1200);
     try {
       const imgParts = uploadedPhotos.map(p => ({ inlineData:{ mimeType:p.mediaType, data:p.base64 } }));
@@ -425,7 +423,7 @@ async function generatePrompts() {
   }
 
   // STEP 2 — Generate 3-option prompts
-  setStatus('✍️ Đang tạo 2 options cho mỗi cảnh...');
+  setStatus('Đang tạo 2 options cho mỗi cảnh...');
   animProg(40, 75, 2000);
 
   const sys = `You are an expert AI Video Prompt Engineer and DOP (Director of Photography). You create prompts for Nano Banana Pro / Midjourney (image) and Kling AI / Runway / Luma (video).
@@ -534,18 +532,18 @@ function renderResults(data) {
   selections = {};
   setLoading(false);
   document.getElementById('progressBar').style.display = 'none';
-  setStatus(`✓ Đã tạo ${data.scenes?.length||0} cảnh · 2 image options + 2 video options mỗi cảnh`);
+  setStatus(`Đã tạo ${data.scenes?.length||0} cảnh — 2 image options + 2 video options mỗi cảnh`);
 
   // Character card
   const ccw = document.getElementById('charCardWrap');
   ccw.innerHTML = '';
   if (data._hasPhotos && data._charDesc) {
-    ccw.innerHTML = `<div class="char-card"><div class="char-card-label">✦ Nhân vật (Gemini phân tích từ ảnh)</div><div class="char-card-text">${esc(data._charDesc)}</div></div>`;
+    ccw.innerHTML = `<div class="char-card"><div class="char-card-label">Nhân vật (Gemini phân tích từ ảnh)</div><div class="char-card-text">${esc(data._charDesc)}</div></div>`;
   }
   if (data.colorGrade || data.lightingStyle) {
-    ccw.innerHTML += `<div class="char-card" style="background:rgba(0,212,255,.05);border-color:rgba(0,212,255,.18);">
-      <div class="char-card-label" style="color:var(--accent)">🎨 Nhất quán hình ảnh (áp dụng toàn video)</div>
-      <div class="char-card-text" style="color:#93c5fd">${data.colorGrade?'Color grade: '+esc(data.colorGrade)+'<br>':''}${data.lightingStyle?'Lighting: '+esc(data.lightingStyle):''}</div>
+    ccw.innerHTML += `<div class="char-card" style="background:var(--surface);border-color:var(--border);">
+      <div class="char-card-label" style="color:var(--text-dim)">Nhất quán hình ảnh (áp dụng toàn video)</div>
+      <div class="char-card-text">${data.colorGrade?'Color grade: '+esc(data.colorGrade)+'<br>':''}${data.lightingStyle?'Lighting: '+esc(data.lightingStyle):''}</div>
     </div>`;
   }
 
@@ -571,13 +569,13 @@ function renderResults(data) {
         <div class="scene-chevron open" id="chev-${si}">▾</div>
       </div>
       <div class="scene-body open" id="body-${si}">
-        ${scene.setting ? `<div style="padding:10px 18px 0;font-size:12px;color:var(--text-dim);font-style:italic">📍 ${esc(scene.setting)}</div>` : ''}
+        ${scene.setting ? `<div style="padding:10px 18px 0;font-size:12px;color:var(--text-dim);font-style:italic">${esc(scene.setting)}</div>` : ''}
 
         <!-- IMAGE OPTIONS -->
         <div class="prompt-section">
           <div class="prompt-section-header">
-            <span class="section-badge img-badge">🖼 Image Prompt · 2 Options</span>
-            ${data.colorGrade?`<span class="consistency-note">🎨 ${esc(data.colorGrade.slice(0,40))}</span>`:''}
+            <span class="section-badge img-badge">Image Prompt — 2 Options</span>
+            ${data.colorGrade?`<span class="consistency-note">${esc(data.colorGrade.slice(0,40))}</span>`:''}
           </div>
           <div class="options-grid" id="img-opts-${si}">
             ${(scene.imageOptions||[]).map((opt,oi) => renderOptionHTML(si, 'img', oi, opt, oi===0)).join('')}
@@ -587,8 +585,8 @@ function renderResults(data) {
         <!-- VIDEO OPTIONS -->
         <div class="prompt-section">
           <div class="prompt-section-header">
-            <span class="section-badge vid-badge">▶ Video Prompt · 2 Options</span>
-            ${data.lightingStyle?`<span class="consistency-note">💡 ${esc(data.lightingStyle.slice(0,40))}</span>`:''}
+            <span class="section-badge vid-badge">Video Prompt — 2 Options</span>
+            ${data.lightingStyle?`<span class="consistency-note">${esc(data.lightingStyle.slice(0,40))}</span>`:''}
           </div>
           <div class="options-grid" id="vid-opts-${si}">
             ${(scene.videoOptions||[]).map((opt,oi) => renderOptionHTML(si, 'vid', oi, opt, oi===0)).join('')}
@@ -599,11 +597,11 @@ function renderResults(data) {
         <div class="gen-actions">
           <button class="gen-img-btn" id="genImgBtn-${si}" onclick="genImage(${si})">
             <div class="btn-spinner" id="imgSpinner-${si}"></div>
-            <span>🍌 Gen Ảnh (Nano Banana)</span>
+            <span>Gen Ảnh (Nano Banana)</span>
           </button>
           <button class="gen-vid-btn" id="genVidBtn-${si}" onclick="genVideo(${si})">
             <div class="btn-spinner" id="vidSpinner-${si}"></div>
-            <span>▶ Gen Video (Kling)</span>
+            <span>Gen Video (Kling)</span>
           </button>
         </div>
 
@@ -702,7 +700,7 @@ async function genImage(si) {
   const previewEl = document.getElementById(`imgPreview-${si}`);
   const contentEl = document.getElementById(`imgPreviewContent-${si}`);
   previewEl.classList.remove('show');
-  contentEl.innerHTML = `<div class="kling-polling-msg">🍌 Calling ${modelLabel}${hasRefPhotos ? ' + reference photos' : ''}...</div>`;
+  contentEl.innerHTML = `<div class="kling-polling-msg">Calling ${modelLabel}${hasRefPhotos ? ' + reference photos' : ''}...</div>`;
   previewEl.classList.add('show');
 
   try {
@@ -732,7 +730,7 @@ async function genImage(si) {
       for (let attempt = 0; attempt < 3; attempt++) {
         if (attempt > 0 || tryModel !== model) {
           const wait = (attempt + 1) * 2000;
-          contentEl.innerHTML = `<div class="kling-polling-msg">🍌 ${tryModel !== model ? 'Trying fallback model' : 'Retrying'}... (${attempt + 1})</div>`;
+          contentEl.innerHTML = `<div class="kling-polling-msg">${tryModel !== model ? 'Trying fallback model' : 'Retrying'}... (${attempt + 1})</div>`;
           await new Promise(ok => setTimeout(ok, wait));
         }
         r = await fetch('/api/gemini', {
@@ -766,17 +764,17 @@ async function genImage(si) {
     lastData._genImages[si] = { b64, mime, src };
 
     contentEl.innerHTML = `
-      <div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--green);margin-bottom:6px;">
-        ${hasRefPhotos ? '✦ Face locked from reference photo' : '✦ Generated'} · ${modelLabel}
+      <div style="font-size:10px;font-weight:600;color:var(--green);margin-bottom:6px;">
+        ${hasRefPhotos ? 'Face locked from reference photo' : 'Generated'} — ${modelLabel}
       </div>
       <img class="preview-img" src="${src}" alt="Scene ${si+1}" />
       <div class="preview-actions">
-        <a class="download-btn" href="${src}" download="scene-${si+1}-opt${optIdx+1}.png">⬇ Download PNG</a>
-        <button class="download-btn" style="cursor:pointer;border:none;" onclick="useAsKlingFrame(${si})">🎬 Dùng làm Kling first frame</button>
+        <a class="download-btn" href="${src}" download="scene-${si+1}-opt${optIdx+1}.png">Download PNG</a>
+        <button class="download-btn" style="cursor:pointer;border:none;" onclick="useAsKlingFrame(${si})">Dùng làm Kling first frame</button>
       </div>`;
 
   } catch(err) {
-    contentEl.innerHTML = `<div class="gen-error">❌ ${esc(err.message)}</div>`;
+    contentEl.innerHTML = `<div class="gen-error">${esc(err.message)}</div>`;
   }
   setGenLoading(si, 'img', false);
 }
@@ -814,7 +812,7 @@ async function genVideo(si) {
   const previewEl = document.getElementById(`vidPreview-${si}`);
   const contentEl = document.getElementById(`vidPreviewContent-${si}`);
   previewEl.classList.remove('show');
-  contentEl.innerHTML = `<div class="kling-polling-msg">🎬 Submitting to Kling${frameSource ? ` (image2video · ${frameSource.label})` : ' (text2video)'}...</div>`;
+  contentEl.innerHTML = `<div class="kling-polling-msg">Submitting to Kling${frameSource ? ` (image2video — ${frameSource.label})` : ' (text2video)'}...</div>`;
   previewEl.classList.add('show');
 
   try {
@@ -871,7 +869,7 @@ async function genVideo(si) {
     const taskId = submitData.data?.task_id;
     if (!taskId) throw new Error('Không nhận được task_id từ Kling.');
 
-    contentEl.innerHTML = `<div class="kling-polling-msg">⏳ Kling đang render... (${frameSource ? 'image2video' : 'text2video'})</div>`;
+    contentEl.innerHTML = `<div class="kling-polling-msg">Kling đang render... (${frameSource ? 'image2video' : 'text2video'})</div>`;
 
     // Poll — image2video uses different endpoint
     const pollBase = frameSource
@@ -887,11 +885,11 @@ async function genVideo(si) {
         <source src="${videoUrl}" type="video/mp4">
       </video>
       <div class="preview-actions">
-        <a class="download-btn" href="${videoUrl}" download="scene-${si+1}-video.mp4" target="_blank">⬇ Download MP4</a>
-        <span style="font-family:'Space Mono',monospace;font-size:9px;color:var(--text-muted);align-self:center">${model} · ${opt.style||'Option '+(optIdx+1)}</span>
+        <a class="download-btn" href="${videoUrl}" download="scene-${si+1}-video.mp4" target="_blank">Download MP4</a>
+        <span style="font-size:10px;font-weight:500;color:var(--text-muted);align-self:center">${model} — ${opt.style||'Option '+(optIdx+1)}</span>
       </div>`;
   } catch(err) {
-    contentEl.innerHTML = `<div class="gen-error">❌ Lỗi: ${esc(err.message)}</div>`;
+    contentEl.innerHTML = `<div class="gen-error">Lỗi: ${esc(err.message)}</div>`;
   }
   setGenLoading(si, 'vid', false);
 }
@@ -917,7 +915,7 @@ async function pollKlingTask(taskId, onStatus, pollUrl) {
     } else if (status === 'failed') {
       throw new Error('Kling task failed: ' + (d.data?.task_status_msg || 'Unknown error'));
     } else {
-      onStatus(`⏳ Đang render... ${elapsed}s (${status||'processing'})`);
+      onStatus(`Đang render... ${elapsed}s (${status||'processing'})`);
     }
   }
   throw new Error('Timeout: Kling render quá lâu. Vui lòng thử lại.');
@@ -932,7 +930,7 @@ function useAsKlingFrame(si) {
   lastData._genImages[si]._pinned = true;
   // Visual feedback
   const btn = document.querySelector(`#imgPreviewContent-${si} button`);
-  if (btn) { btn.textContent = '✓ Đã chọn làm first frame'; btn.style.color = 'var(--green)'; btn.style.borderColor = 'rgba(0,229,160,.4)'; }
+  if (btn) { btn.textContent = 'Đã chọn làm first frame'; btn.style.color = 'var(--green)'; btn.style.borderColor = 'rgba(26,138,92,.3)'; }
 }
 
 function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
@@ -980,7 +978,7 @@ function exportAll() {
 async function copyRaw(text, btn) {
   try {
     await navigator.clipboard.writeText(text);
-    if (btn) { const orig = btn.textContent; btn.textContent = '✓ Copied!'; setTimeout(()=>btn.textContent=orig, 2000); }
+    if (btn) { const orig = btn.textContent; btn.textContent = 'Copied!'; setTimeout(()=>btn.textContent=orig, 2000); }
   } catch(e) {}
 }
 
@@ -998,7 +996,7 @@ async function copyOptionPrompt(btn, si, type, oi) {
 async function copyTxt(btn, text) {
   try {
     await navigator.clipboard.writeText(text);
-    btn.textContent = '✓'; btn.classList.add('copied');
+    btn.textContent = 'Copied'; btn.classList.add('copied');
     setTimeout(()=>{ btn.textContent='Copy'; btn.classList.remove('copied'); }, 1800);
   } catch(e) {}
 }

@@ -290,7 +290,7 @@ Ví dụ: Bạn đang bỏ lỡ hàng nghìn khách hàng tiềm năng mỗi th�
   <button class="gen-btn" id="mainGenBtn" onclick="generatePrompts()">
     <div class="btn-inner">
       <div class="spinner" id="mainSpinner"></div>
-      <span id="mainBtnTxt">⚡ Tạo 3 Options Prompt / Cảnh</span>
+      <span id="mainBtnTxt">⚡ Tạo 2 Options Prompt / Cảnh</span>
     </div>
   </button>
   <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
@@ -379,7 +379,7 @@ function hideError() { document.getElementById('errorMsg').style.display='none';
 function setLoading(on) {
   document.getElementById('mainGenBtn').disabled = on;
   document.getElementById('mainSpinner').style.display = on ? 'block' : 'none';
-  document.getElementById('mainBtnTxt').textContent = on ? 'Đang tạo prompts...' : '⚡ Tạo 3 Options Prompt / Cảnh';
+  document.getElementById('mainBtnTxt').textContent = on ? 'Đang tạo prompts...' : '⚡ Tạo 2 Options Prompt / Cảnh';
   document.getElementById('progressBar').style.display = on ? 'block' : 'none';
 }
 
@@ -425,7 +425,7 @@ async function generatePrompts() {
   }
 
   // STEP 2 — Generate 3-option prompts
-  setStatus('✍️ Đang tạo 3 options cho mỗi cảnh...');
+  setStatus('✍️ Đang tạo 2 options cho mỗi cảnh...');
   animProg(40, 75, 2000);
 
   const sys = `You are an expert AI Video Prompt Engineer and DOP (Director of Photography). You create prompts for Nano Banana Pro / Midjourney (image) and Kling AI / Runway / Luma (video).
@@ -455,13 +455,11 @@ RESPONSE FORMAT:
       "setting": "brief setting & camera angle in Vietnamese",
       "imageOptions": [
         { "label": "Option A", "style": "Wide cinematic", "prompt": "..." },
-        { "label": "Option B", "style": "Medium dramatic", "prompt": "..." },
-        { "label": "Option C", "style": "Close emotional", "prompt": "..." }
+        { "label": "Option B", "style": "Close emotional", "prompt": "..." }
       ],
       "videoOptions": [
         { "label": "Option A", "style": "Dynamic push-in", "prompt": "..." },
-        { "label": "Option B", "style": "Static + FX", "prompt": "..." },
-        { "label": "Option C", "style": "Slow orbit", "prompt": "..." }
+        { "label": "Option B", "style": "Slow orbit", "prompt": "..." }
       ]
     }
   ],
@@ -472,12 +470,12 @@ Image prompt example: "Wide shot, {{CHARACTER}}, confident expression, standing 
 
 Video prompt example: "Slow dolly-in toward subject, {{CHARACTER}} turns slightly toward camera, city lights begin to flicker on in background, gentle wind moves jacket, smooth cinematic motion, 24fps"
 
-Each of 3 image options must differ in: shot size (wide/medium/close), camera angle. Each of 3 video options must differ in: camera movement style. Same colorGrade and lightingStyle across all.
+Each of 2 image options must differ in: shot size (wide vs close), camera angle. Each of 2 video options must differ in: camera movement style. Same colorGrade and lightingStyle across all.
 Tone: ${toneMap[tone]} | Aspect ratio: ${ratio} | Style: ${style}`;
 
   const userParts = [];
   if (hasPhotos) uploadedPhotos.forEach(p => userParts.push({ inlineData:{ mimeType:p.mediaType, data:p.base64 } }));
-  userParts.push({ text:`Analyze and create 3 options per scene for this script:\n\n${script}\n\nSplit into 4-8 scenes. Each sentence/idea = 1 scene.\nWrite prompts in ${lang==='vi'?'Vietnamese':'English'}.` });
+  userParts.push({ text:`Analyze and create 2 options per scene for this script:\n\n${script}\n\nSplit into 4-8 scenes. Each sentence/idea = 1 scene.\nWrite prompts in ${lang==='vi'?'Vietnamese':'English'}.` });
 
   try {
     const r = await fetch('/api/gemini', {
@@ -485,7 +483,7 @@ Tone: ${toneMap[tone]} | Aspect ratio: ${ratio} | Style: ${style}`;
       body: JSON.stringify({ model:'gemini-2.5-flash', payload:{
         systemInstruction:{ parts:[{ text:sys }] },
         contents:[{ parts:userParts }],
-        generationConfig:{ maxOutputTokens:8000 }
+        generationConfig:{ maxOutputTokens:5000 }
       }})
     });
     animProg(75, 95, 800);
@@ -536,7 +534,7 @@ function renderResults(data) {
   selections = {};
   setLoading(false);
   document.getElementById('progressBar').style.display = 'none';
-  setStatus(`✓ Đã tạo ${data.scenes?.length||0} cảnh · 3 image options + 3 video options mỗi cảnh`);
+  setStatus(`✓ Đã tạo ${data.scenes?.length||0} cảnh · 2 image options + 2 video options mỗi cảnh`);
 
   // Character card
   const ccw = document.getElementById('charCardWrap');
@@ -578,7 +576,7 @@ function renderResults(data) {
         <!-- IMAGE OPTIONS -->
         <div class="prompt-section">
           <div class="prompt-section-header">
-            <span class="section-badge img-badge">🖼 Image Prompt · 3 Options</span>
+            <span class="section-badge img-badge">🖼 Image Prompt · 2 Options</span>
             ${data.colorGrade?`<span class="consistency-note">🎨 ${esc(data.colorGrade.slice(0,40))}</span>`:''}
           </div>
           <div class="options-grid" id="img-opts-${si}">
@@ -589,7 +587,7 @@ function renderResults(data) {
         <!-- VIDEO OPTIONS -->
         <div class="prompt-section">
           <div class="prompt-section-header">
-            <span class="section-badge vid-badge">▶ Video Prompt · 3 Options</span>
+            <span class="section-badge vid-badge">▶ Video Prompt · 2 Options</span>
             ${data.lightingStyle?`<span class="consistency-note">💡 ${esc(data.lightingStyle.slice(0,40))}</span>`:''}
           </div>
           <div class="options-grid" id="vid-opts-${si}">

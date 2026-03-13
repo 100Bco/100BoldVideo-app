@@ -8,6 +8,9 @@
     },
     "api/kling.js": {
       "maxDuration": 60
+    },
+    "api/veo.js": {
+      "maxDuration": 60
     }
   }
 }
